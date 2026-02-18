@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="image/logo.png">
+    <title>Profile - CogniSphere</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            width: 90%;
+            margin: auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-picture-container {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .upload-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px;
+            border-bottom-left-radius: 50%;
+            border-bottom-right-radius: 50%;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .profile-picture-container:hover .upload-overlay {
+            opacity: 1;
+        }
+
+        .upload-btn {
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .profile-info h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .profile-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="image/logo.png" alt="Logo">
+            <span class="logo-text">CogniSphere</span>
+        </div>
+        <div class="nav-links">
+            <a href="Mainmenu.html">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-picture-container">
+                <img src="account.png" alt="Profile Picture" class="profile-picture" id="profile-image">
+                <div class="upload-overlay">
+                    <label for="profile-upload" class="upload-btn">Change Photo</label>
+                    <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+                </div>
+            </div>
+            <div class="profile-info">
+                <h1 id="user-name">Loading...</h1>
+                <p id="user-email">Loading...</p>
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <h2>Assessment History</h2>
+            <p>No assessments completed yet.</p>
+        </div>
+
+        <div class="profile-section">
+            <h2>Recommendations</h2>
+            <p>Complete an assessment to receive personalized recommendations.</p>
+        </div>
+
+        <button class="logout-btn" onclick="handleLogout()">Logout</button>
+    </div>
+
+    <script>
+        // Load profile picture if exists
+        function loadProfilePicture() {
+            const profilePic = localStorage.getItem('profilePicture');
+            if (profilePic) {
+                document.getElementById('profile-image').src = profilePic;
+            }
+        }
+
+        // Handle profile picture upload
+        document.getElementById('profile-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    document.getElementById('profile-image').src = imageData;
+                    localStorage.setItem('profilePicture', imageData);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfilePicture();
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                // If not logged in, redirect to login page
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Display user information
+            const user = JSON.parse(userStr);
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-email').textContent = user.email;
+        });
+
+        // Handle logout
+        function handleLogout() {
+            localStorage.removeItem('user');
+            window.location.href = 'Mainmenu.html';
+        }
+    </script>
+</body>
+</html>

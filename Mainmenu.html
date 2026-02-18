@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="image/logo.png">
+    <title>CogniSphere</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="image/logo.png" alt="Logo">
+            <span class="logo-text">CogniSphere</span>
+        </div>
+        <div class="nav-links">
+            <span class="nav-link" onclick="window.location.href='#home'">Home</span>
+            <span class="nav-link" onclick="window.location.href='About.html'">About</span>
+            <span class="nav-link" onclick="window.location.href='Contact.html'">Contact</span>
+            <div class="auth-buttons" id="auth-section">
+                <!-- Login button for logged-out users -->
+                <div id="logged-out-view">
+                    <button class="btn btn-secondary" onclick="window.location.href='login.html'">Login</button>
+                </div>
+                <!-- Profile button for logged-in users -->
+                <div id="logged-in-view" style="display: none;">
+                    <img src="account.png" alt="Profile" id="nav-profile-image" class="profile-icon" onclick="window.location.href='profile.html'" style="width: 32px; height: 32px; cursor: pointer; border-radius: 50%; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>Welcome to CogniSphere</h1>
+            <p>An innovative system for early detection of learning disabilities using advanced machine learning techniques and web basd interactions.</p>
+        </div>
+
+        <!-- Cards Container -->
+        <div class="cards-container">
+            <!-- About Card -->
+            <div class="card">
+                <h2>About Us</h2>
+                <p>CogniSphere is a cutting-edge platform designed to help identify early signs oflearning disabilities for young children through interactive assessments and advanced analysis.</p>
+            </div>
+
+            <!-- Features Card -->
+            <div class="card">
+                <h2>Our Features</h2>
+                <p>• Early detection through game-based assessment<br>
+                   • interactive activities and questionares<br>
+                   • Machine learning powered analysis<br>
+                   • Detailed reports and recommendations<br>
+                   • Professional guidance and support</p>
+            </div>
+
+            <!-- Get Started Card -->
+            <div class="card">
+                <h2>Get Started</h2>
+                <p>Create an account to begin your assessment journey. Our simple process helps you understand and identify potential learning differences.</p>
+                <br>
+                <button class="btn btn-primary" onclick="window.location.href='assestment.html'">Start Assessment</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        function togglePasswordVisibility(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Toggle between login and signup forms
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+            clearErrors();
+        }
+
+        // Clear all error messages
+        function clearErrors() {
+            const errorElements = document.getElementsByClassName('error-message');
+            for (let element of errorElements) {
+                element.style.display = 'none';
+                element.textContent = '';
+            }
+        }
+
+        // Show error message
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        // Handle login form submission
+        async function handleLogin(event) {
+            event.preventDefault();
+            clearErrors();
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch('http://localhost:8000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('user', JSON.stringify({
+                        email: email,
+                        name: data.name // Assuming the server sends back the user's name
+                    }));
+                    // Redirect to main menu
+                    window.location.href = 'Mainmenu.html';
+                } else {
+                    showError('login-password-error', 'Invalid email or password');
+                }
+            } catch (error) {
+                showError('login-password-error', 'Server error. Please try again.');
+            }
+            return false;
+        }
+
+        // Handle signup form submission
+        async function handleSignup(event) {
+            event.preventDefault();
+            clearErrors();
+
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showError('signup-confirm-password-error', 'Passwords do not match');
+                return false;
+            }
+
+            try {
+                const response = await fetch('http://localhost:8000/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('user', JSON.stringify({
+                        email: email,
+                        name: name
+                    }));
+                    // Redirect to main menu
+                    window.location.href = 'Mainmenu.html';
+                } else {
+                    showError('signup-email-error', 'Email already registered');
+                }
+            } catch (error) {
+                showError('signup-email-error', 'Server error. Please try again.');
+            }
+            return false;
+        }
+    </script>
+    <script>
+        // Check login status and update UI accordingly
+        function checkLoginStatus() {
+            const userData = localStorage.getItem('user');
+            const loggedOutView = document.getElementById('logged-out-view');
+            const loggedInView = document.getElementById('logged-in-view');
+            const navProfileImage = document.getElementById('nav-profile-image');
+
+            if (userData) {
+                const user = JSON.parse(userData);
+                loggedOutView.style.display = 'none';
+                loggedInView.style.display = 'block';
+                navProfileImage.src = user.profileImage;
+                navProfileImage.title = user.name; // Show name on hover
+            } else {
+                loggedOutView.style.display = 'block';
+                loggedInView.style.display = 'none';
+            }
+        }
+
+        // Check login status when page loads
+        window.addEventListener('load', checkLoginStatus);
+    </script>
+</body>
+</html>

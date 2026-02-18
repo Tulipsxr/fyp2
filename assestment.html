@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="image/logo.png">
+    <title>CogniSphere</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="image/logo.png" alt="Logo">
+            <span class="logo-text">CogniSphere</span>
+        </div>
+        <div class="nav-links">
+            <span class="nav-link" onclick="window.location.href='#home'">Home</span>
+            <span class="nav-link" onclick="window.location.href='#about'">About</span>
+            <span class="nav-link" onclick="window.location.href='#contact'">Contact</span>
+            <div class="auth-buttons" id="auth-section">
+
+                <!-- Profile button for logged-in users -->
+                <div id="logged-in-view" style="display: none;">
+                    <img src="account.png" alt="Profile" id="nav-profile-image" class="profile-icon" onclick="window.location.href='profile.html'" style="width: 32px; height: 32px; cursor: pointer; border-radius: 50%; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+     <nav>
+    <div class="main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>CogniSphere Learning Disability assestment</h1>
+            <p>Click to begin ur assestments!</p>
+            <br>
+        </div>
+    </nav>
+        <!-- Dyslexia card Container -->
+        <div class="cards-container">
+            <!-- About Card -->
+            <div class="card">
+                <h2>Dyslexia Detection</h2>
+                <p>
+                    Dyslexia is a lifelong learning disorder that affects reading and spelling. It can also cause problems with writing and math.<br>This section contains a series of word activities to understand and detect dyslexia.</p>
+                <br>
+                <button class="btn btn-secondary" onclick="window.location.href='dyslexia/dyslexia.html'">Begin</button>
+            </div>
+
+            <!-- Dysgraphia Card -->
+            <div class="card">
+                <h2>Dysgraphia Detection</h2>
+                <p>This section contains a series of word activities to understand and detect dysgraphia.Dysgraphia is the inability to write coherently, as a symptom of a neurological condition or as an aspect of a learning disability.</p>
+                <br>
+                <button class="btn btn-secondary" onclick="window.location.href='Dysgraphia/dysgraphia-detection.html'">Begin</button>
+            </div>
+
+            <!-- Get Started Card 
+            <div class="card">
+                <h2>Auditory Processing Disorder (APD)</h2>
+                <p>Auditory processing disorder, also called APD, is a type of hearing loss caused by something affecting the part of the brain that processes how you hear. Ear damage causes other types of hearing loss.</p>
+                <br>
+                <button class="btn btn-primary">Begin</button>
+            </div>
+
+                
+              <div class="card">
+                <h2>Dyspraxia Detection</h2>
+                <p>Auditory processing disorder, also called APD, is a type of hearing loss caused by something affecting the part of the brain that processes how you hear. Ear damage causes other types of hearing loss.</p>
+                <br>
+                <button class="btn btn-primary">Begin</button>
+            </div>-->
+
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 CogniSphere. All rights reserved.</p>
+
+        </div>
+    </div>
+  
+</body>
+</html>

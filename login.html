@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/login.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="background-image"></div>
+        <div class="auth-form">
+            <div class="form-container" id="login-form">
+                
+                <h2>Login</h2>
+                <form onsubmit="return handleLogin(event)">
+                    <div class="input-group">
+                        <input type="email" id="login-email" placeholder="Email" required>
+                        <div class="error-message" id="login-email-error"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="password-container">
+                            <input type="password" id="login-password" placeholder="Password" required>
+                            <i class="password-toggle fas fa-eye" onclick="togglePasswordVisibility('login-password', this)"></i>
+                        </div>
+                        <div class="error-message" id="login-password-error"></div>
+                    </div>
+                    <button type="submit">Login</button>
+                    <div class="switch-form">
+                        Don't have an account? <a onclick="toggleForms()">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-container" id="signup-form" style="display: none;">
+                <h2>Sign Up</h2>
+                <form onsubmit="return handleSignup(event)">
+                    <div class="input-group">
+                        <input type="text" id="signup-name" placeholder="Full Name" required>
+                        <div class="error-message" id="signup-name-error"></div>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="signup-email" placeholder="Email" required>
+                        <div class="error-message" id="signup-email-error"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="password-container">
+                            <input type="password" id="signup-password" placeholder="Password" required>
+                            <i class="password-toggle fas fa-eye" onclick="togglePasswordVisibility('signup-password', this)"></i>
+                        </div>
+                        <div class="error-message" id="signup-password-error"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="password-container">
+                            <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required>
+                            <i class="password-toggle fas fa-eye" onclick="togglePasswordVisibility('signup-confirm-password', this)"></i>
+                        </div>
+                        <div class="error-message" id="signup-confirm-password-error"></div>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                    <div class="switch-form">
+                        Already have an account? <a onclick="toggleForms()">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        function togglePasswordVisibility(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Toggle between login and signup forms
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+            signupForm.style.display = signupForm.style.display === 'none' ? 'block' : 'none';
+            clearErrors();
+        }
+
+        // Clear all error messages
+        function clearErrors() {
+            const errorElements = document.getElementsByClassName('error-message');
+            for (let i = 0; i < errorElements.length; i++) {
+                errorElements[i].textContent = '';
+            }
+        }
+
+        // Show error message
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(`${elementId}-error`);
+            errorElement.textContent = message;
+        }
+
+        // Handle login form submission
+        async function handleLogin(event) {
+            event.preventDefault();
+            clearErrors();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch('http://localhost:8000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('user', JSON.stringify({
+                        email: email,
+                        name: data.name,
+                        profileImage: 'account.png' // Default profile image
+                    }));
+                    // Redirect to main menu
+                    window.location.href = 'Mainmenu.html';
+                } else {
+                    showError('login-password', 'Invalid email or password');
+                }
+            } catch (error) {
+                showError('login-password', 'Server error. Please try again.');
+            }
+            return false;
+        }
+
+        // Handle signup form submission
+        async function handleSignup(event) {
+            event.preventDefault();
+            clearErrors();
+            
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showError('signup-confirm-password', 'Passwords do not match');
+                return false;
+            }
+
+            try {
+                const response = await fetch('http://localhost:8000/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('user', JSON.stringify({
+                        email: email,
+                        name: name
+                    }));
+                    // Redirect to main menu
+                    window.location.href = 'profile.html';
+                } else {
+                    showError('signup-email-error', 'Email already registered');
+                }
+            } catch (error) {
+                showError('signup-email-error', 'Server error. Please try again.');
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>

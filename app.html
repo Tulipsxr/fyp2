@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dyslexia Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Dyslexia Prediction</h2>
+    <form id="predictionForm">
+        <label>Age:</label>
+        <input type="number" id="age" required>
+
+        <label>Gender:</label>
+        <select id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+
+        <label>Native Language:</label>
+        <select id="nativelang">
+            <option value="English">English</option>
+            <option value="Spanish">Spanish</option>
+            <option value="French">French</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label>Game Statistics (Comma-separated):</label>
+        <input type="text" id="gameStats" placeholder="Enter 32 numbers" required>
+
+        <button type="button" onclick="predictDyslexia()">Predict</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        async function predictDyslexia() {
+            const age = document.getElementById("age").value;
+            const gender = document.getElementById("gender").value;
+            const nativelang = document.getElementById("nativelang").value;
+            const gameStats = document.getElementById("gameStats").value.split(",").map(Number);
+
+            if (gameStats.length !== 32) {
+                alert("Please enter exactly 32 numbers for Game Stats.");
+                return;
+            }
+
+            const data = {
+                Age: parseInt(age),
+                Gender: gender,
+                Nativelang: nativelang,
+                GameStats: gameStats
+            };
+
+            const response = await fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = "Prediction: " + result.prediction;
+        }
+    </script>
+</body>
+</html>
