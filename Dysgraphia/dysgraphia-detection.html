@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dysgraphia Detection Activities</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1c2635 0%, #6591ca 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #deecff;
+            margin-bottom: 16px;
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            color: #cbdee6;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+
+        .progress {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 32px;
+        }
+
+        .progress-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #2563eb;
+            color: #2563eb;
+        }
+
+        .btn-outline:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-destructive {
+            background: #dc2626;
+        }
+
+        .btn-destructive:hover {
+            background: #b91c1c;
+        }
+
+        .tabs {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: #f3f4f6;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            min-width: 120px;
+        }
+
+        .tab-button.active {
+            color: #2563eb;
+            background: white;
+            border-bottom-color: #2563eb;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 32px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+
+        .canvas-container {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f9fafb;
+            margin: 16px 0;
+        }
+
+        #drawingCanvas {
+            display: block;
+            cursor: crosshair;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+        }
+
+        #coordinationCanvas {
+            display: block;
+            cursor: crosshair;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+        }
+
+        .textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .input-large {
+            text-align: center;
+            font-size: 2rem;
+            font-family: monospace;
+            height: 80px;
+        }
+
+        .letter-display {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #2563eb;
+            text-align: center;
+            margin: 24px 0;
+            font-family: monospace;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .instructions {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 24px;
+        }
+
+        .instructions h4 {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            margin-bottom: 4px;
+            color: #374151;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 24px 0;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 400px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .toast.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .toast-description {
+            color: #6b7280;
+            white-space: pre-line;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-width: auto;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dysgraphia Detection Activities</h1>
+            <p>Interactive activities designed to help identify and assess writing difficulties in children. Complete all activities to get your comprehensive assessment results.</p>
+            
+            <div class="progress">
+                <div class="progress-text">
+                    <span id="completedCount">0</span>/5 Activities Completed
+                </div>
+                <button id="resultsBtn" class="btn" disabled onclick="viewResults()">
+                    View Assessment Results
+                </button>
+                <p id="remainingText" style="margin-top: 8px; font-size: 0.875rem; color: #6b7280;">
+                    Complete 5 more activities to unlock your results
+                </p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('drawing')">Drawing</button>
+                <button class="tab-button" onclick="switchTab('writing')">Writing</button>
+                <button class="tab-button" onclick="switchTab('letters')">Letters</button>
+                <button class="tab-button" onclick="switchTab('speed')">Speed</button>
+                <button class="tab-button" onclick="switchTab('coordination')">Coordination</button>
+            </div>
+
+            <!-- Drawing Activity -->
+            <div id="drawing" class="tab-content active">
+                <div class="card">
+                    <h3>Free Drawing Activity <span id="drawingBadge" class="badge hidden">Completed</span></h3>
+                    <p>Draw anything you like! This activity analyzes pen pressure, stroke smoothness, and drawing patterns.</p>
+                    
+                    <div class="canvas-container">
+                        <canvas id="drawingCanvas" width="800" height="400"></canvas>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-outline" onclick="clearDrawingCanvas()">Clear Canvas</button>
+                        <button class="btn" onclick="analyzeDrawing()">Analyze Drawing</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Writing Activity -->
+            <div id="writing" class="tab-content">
+                <div class="card">
+                    <h3>Writing Assessment <span id="writingBadge" class="badge hidden">Completed</span></h3>
+                    <p>Copy the given text or write your own. This analyzes handwriting consistency and letter formation.</p>
+                    
+                    <div class="card">
+                        <h4>Please copy this text:</h4>
+                        <p id="sampleText" style="font-size: 1.125rem; background: #f9fafb; padding: 16px; border-radius: 8px; border: 2px dashed #d1d5db; margin: 16px 0;"></p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Your writing:</h4>
+                        <textarea id="writingText" class="textarea" placeholder="Start typing the text above..."></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-outline" onclick="clearWritingText()">Clear Text</button>
+                        <button class="btn" onclick="analyzeWriting()">Analyze Writing</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Letter Activity -->
+            <div id="letters" class="tab-content">
+                <div class="card">
+                    <h3>Letter Formation <span id="lettersBadge" class="badge hidden">Completed</span></h3>
+                    <p>Practice writing individual letters. This analyzes letter formation patterns and consistency.</p>
+                    
+                    <div class="card" style="text-align: center;">
+                        <h4>Write this letter:</h4>
+                        <div id="currentLetter" class="letter-display">A</div>
+                        <p id="letterType">Uppercase letter</p>
+                    </div>
+                    
+                    <div class="card">
+                        <label>Type the letter you see above:</label>
+                        <input id="letterInput" class="input input-large" maxlength="1" placeholder="?">
+                        
+                        <div id="attempts" class="hidden" style="margin-top: 16px; text-align: center;">
+                            <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 8px;">Your attempts:</p>
+                            <div id="attemptsList" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn" onclick="checkLetter()">Check Letter</button>
+                        <button class="btn btn-outline" onclick="randomLetter()">Random Letter</button>
+                        <button class="btn btn-outline" onclick="completeLetterActivity()">Complete Activity</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Speed Activity -->
+            <div id="speed" class="tab-content">
+                <div class="card">
+                    <h3>Writing Speed Test <span id="speedBadge" class="badge hidden">Completed</span></h3>
+                    <p>Write as quickly and clearly as possible. This measures writing fluency and speed.</p>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div id="timer" style="font-size: 2.5rem; font-weight: bold; color: #2563eb; margin-bottom: 8px;">1:00</div>
+                        <p style="color: #6b7280;">Time remaining</p>
+                        
+                        <div class="button-group">
+                            <button id="startSpeedBtn" class="btn" onclick="startSpeedTest()">Start Speed Test</button>
+                            <button id="stopSpeedBtn" class="btn btn-destructive hidden" onclick="stopSpeedTest()">Stop Test</button>
+                            <button class="btn btn-outline" onclick="resetSpeedTest()">Reset</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Writing Prompt:</h4>
+                        <p id="speedPrompt" style="font-size: 1.125rem; background: #dbeafe; padding: 16px; border-radius: 8px; border: 1px solid #3b82f6; margin: 16px 0;"></p>
+                        
+                        <textarea id="speedText" class="textarea" placeholder="Click 'Start Speed Test' and then begin writing here..." disabled></textarea>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 16px; font-size: 0.875rem; color: #6b7280;">
+                            <span>Words: <span id="wordCount">0</span></span>
+                            <span>Characters: <span id="charCount">0</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Instructions:</h4>
+                        <ul>
+                            <li>• Click "Start Speed Test" to begin the 1-minute timer</li>
+                            <li>• Write as much as you can about the given topic</li>
+                            <li>• Focus on writing quickly while maintaining legibility</li>
+                            <li>• The test will automatically end when time runs out</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coordination Activity -->
+            <div id="coordination" class="tab-content">
+                <div class="card">
+                    <h3>Hand-Eye Coordination <span id="coordinationBadge" class="badge hidden">Completed</span></h3>
+                    <p>Follow the moving targets and connect the dots. This tests coordination and tracking abilities.</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div id="targetsHit" class="stat-value" style="color: #2563eb;">0</div>
+                            <div class="stat-label">Targets Hit</div>
+                        </div>
+                        <div class="stat-card">
+                            <div id="timeLeft" class="stat-value" style="color: #16a34a;">30s</div>
+                            <div class="stat-label">Time Left</div>
+                        </div>
+                        <div class="stat-card">
+                            <div id="activeTargets" class="stat-value" style="color: #7c3aed;">0</div>
+                            <div class="stat-label">Active Targets</div>
+                        </div>
+                    </div>
+                    
+                    <div class="canvas-container">
+                        <canvas id="coordinationCanvas" width="600" height="400"></canvas>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button id="startCoordBtn" class="btn" onclick="startCoordinationGame()">Start Coordination Test</button>
+                        <button id="endCoordBtn" class="btn btn-destructive hidden" onclick="endCoordinationGame()">End Game</button>
+                        <button id="completeCoordBtn" class="btn hidden" onclick="completeCoordinationActivity()">Complete Activity</button>
+                        <button class="btn btn-outline" onclick="resetCoordinationGame()">Reset</button>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Instructions:</h4>
+                        <ul>
+                            <li>• Click on the red targets as quickly as possible</li>
+                            <li>• New targets will appear every 1.5 seconds</li>
+                            <li>• Targets disappear after 3 seconds if not hit</li>
+                            <li>• Try to hit as many targets as you can in 30 seconds</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast">
+        <div id="toastTitle" class="toast-title"></div>
+        <div id="toastDescription" class="toast-description"></div>
+    </div>
+
+    <script>
+        // Global state
+        let activities = {
+            drawing: { completed: false, score: 0, data: null },
+            writing: { completed: false, score: 0, data: null },
+            letters: { completed: false, score: 0, data: null },
+            speed: { completed: false, score: 0, data: null },
+            coordination: { completed: false, score: 0, data: null }
+        };
+
+        // Sample texts for writing activity
+        const sampleTexts = [
+            "The quick brown fox jumps over the lazy dog.",
+            "She sells seashells by the seashore.",
+            "Peter Piper picked a peck of pickled peppers.",
+            "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+        ];
+
+        // Speed test prompts
+        const speedPrompts = [
+            "Write about your favorite hobby and why you enjoy it.",
+            "Describe what you did yesterday from morning to evening.",
+            "Tell a story about your favorite memory.",
+            "Explain how to make your favorite sandwich step by step.",
+            "Write about your dream vacation destination.",
+            "Describe your best friend and what makes them special."
+        ];
+
+        // Letters array
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const lowercase = 'abcdefghijklmnopqrstuvwxyz'.split('');
+        const allLetters = [...letters, ...lowercase];
+
+        // Drawing variables
+        let isDrawing = false;
+        let drawingStrokes = [];
+        let currentStroke = [];
+
+        // Letter activity variables
+        let currentLetter = 'A';
+        let letterAttempts = [];
+
+        // Speed test variables
+        let speedTimer = null;
+        let speedTimeLeft = 60;
+        let speedStartTime = null;
+        let speedActive = false;
+
+        // Coordination game variables
+        let coordTimer = null;
+        let coordTimeLeft = 30;
+        let coordActive = false;
+        let coordTargets = [];
+        let coordScore = 0;
+        let coordGameStarted = false;
+        let coordGameCompleted = false;
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDrawingCanvas();
+            initializeCoordinationCanvas();
+            initializeWritingActivity();
+            initializeSpeedActivity();
+            updateProgress();
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Toast notification
+        function showToast(title, description) {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastDescription = document.getElementById('toastDescription');
+            
+            toastTitle.textContent = title;
+            toastDescription.textContent = description;
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // Update progress
+        function updateProgress() {
+            const completed = Object.values(activities).filter(a => a.completed).length;
+            const total = Object.keys(activities).length;
+            
+            document.getElementById('completedCount').textContent = completed;
+            
+            const resultsBtn = document.getElementById('resultsBtn');
+            const remainingText = document.getElementById('remainingText');
+            
+            if (completed === total) {
+                resultsBtn.disabled = false;
+                remainingText.textContent = 'All activities completed! Click to view results.';
+            } else {
+                resultsBtn.disabled = true;
+                remainingText.textContent = `Complete ${total - completed} more activities to unlock your results`;
+            }
+
+            // Update badges
+            Object.keys(activities).forEach(activityId => {
+                const badge = document.getElementById(activityId + 'Badge');
+                if (activities[activityId].completed) {
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            });
+        }
+
+        // Drawing Activity
+        function initializeDrawingCanvas() {
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#2563eb';
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+        }
+
+        function startDrawing(e) {
+            const canvas = document.getElementById('drawingCanvas');
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            isDrawing = true;
+            currentStroke = [{ x, y, timestamp: Date.now() }];
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const newPoint = { x, y, timestamp: Date.now() };
+            currentStroke.push(newPoint);
+
+            ctx.beginPath();
+            if (currentStroke.length > 1) {
+                const lastPoint = currentStroke[currentStroke.length - 2];
+                ctx.moveTo(lastPoint.x, lastPoint.y);
+            }
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            if (isDrawing && currentStroke.length > 0) {
+                drawingStrokes.push(currentStroke);
+                currentStroke = [];
+            }
+            isDrawing = false;
+        }
+
+        function clearDrawingCanvas() {
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawingStrokes = [];
+            currentStroke = [];
+        }
+
+        function analyzeDrawing() {
+            if (drawingStrokes.length === 0) {
+                showToast('No drawing detected', 'Please draw something first!');
+                return;
+            }
+
+            const totalStrokes = drawingStrokes.length;
+            const avgStrokeLength = drawingStrokes.reduce((acc, stroke) => acc + stroke.length, 0) / totalStrokes;
+            const score = Math.min(100, Math.max(30, totalStrokes * 5 + avgStrokeLength / 2));
+            
+            let analysis = `Drawing Analysis:\n`;
+            analysis += `• Total strokes: ${totalStrokes}\n`;
+            analysis += `• Average stroke length: ${Math.round(avgStrokeLength)} points\n`;
+            analysis += `• Score: ${Math.round(score)}/100\n`;
+            
+            if (totalStrokes < 5) {
+                analysis += '• Simple drawing pattern detected\n';
+            } else if (totalStrokes > 20) {
+                analysis += '• Complex drawing with many strokes\n';
+            }
+
+            activities.drawing = { completed: true, score: Math.round(score), data: { totalStrokes, avgStrokeLength, strokes: drawingStrokes } };
+            updateProgress();
+
+            showToast('Analysis Complete', analysis);
+        }
+
+        // Writing Activity
+        function initializeWritingActivity() {
+            const sampleText = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
+            document.getElementById('sampleText').textContent = sampleText;
+        }
+
+        function clearWritingText() {
+            document.getElementById('writingText').value = '';
+        }
+
+        function analyzeWriting() {
+            const writtenText = document.getElementById('writingText').value;
+            const sampleText = document.getElementById('sampleText').textContent;
+            
+            if (!writtenText.trim()) {
+                showToast('No text entered', 'Please write some text first!');
+                return;
+            }
+
+            const wordCount = writtenText.trim().split(/\s+/).length;
+            const charCount = writtenText.length;
+            const similarity = calculateSimilarity(writtenText.toLowerCase(), sampleText.toLowerCase());
+            
+            const accuracyScore = similarity * 50;
+            const speedScore = Math.min(50, wordCount * 2);
+            const totalScore = accuracyScore + speedScore;
+
+            let analysis = `Writing Analysis:\n`;
+            analysis += `• Words written: ${wordCount}\n`;
+            analysis += `• Characters: ${charCount}\n`;
+            analysis += `• Accuracy: ${Math.round(similarity * 100)}%\n`;
+            analysis += `• Score: ${Math.round(totalScore)}/100\n`;
+
+            if (wordCount < 10) {
+                analysis += '• Consider writing more text\n';
+            }
+            if (similarity < 0.7) {
+                analysis += '• Focus on accuracy and letter formation\n';
+            }
+
+            activities.writing = { completed: true, score: Math.round(totalScore), data: { wordCount, charCount, similarity } };
+            updateProgress();
+
+            showToast('Analysis Complete', analysis);
+        }
+
+        function calculateSimilarity(text1, text2) {
+            const maxLength = Math.max(text1.length, text2.length);
+            if (maxLength === 0) return 1;
+
+            let matches = 0;
+            const minLength = Math.min(text1.length, text2.length);
+            
+            for (let i = 0; i < minLength; i++) {
+                if (text1[i] === text2[i]) matches++;
+            }
+
+            return matches / maxLength;
+        }
+
+        // Letter Activity
+        function checkLetter() {
+            const userInput = document.getElementById('letterInput').value;
+            
+            if (!userInput.trim()) {
+                showToast('No input', 'Please write the letter!');
+                return;
+            }
+
+            const isCorrect = userInput.trim() === currentLetter;
+            letterAttempts.push(userInput);
+
+            const message = isCorrect ? 'Correct! Well done!' : `Not quite right. You wrote "${userInput}" but the target was "${currentLetter}"`;
+            
+            showToast(isCorrect ? 'Success!' : 'Try Again', message);
+
+            updateAttempts();
+
+            if (isCorrect) {
+                setTimeout(nextLetter, 1500);
+            }
+        }
+
+        function nextLetter() {
+            const currentIndex = allLetters.indexOf(currentLetter);
+            const nextIndex = (currentIndex + 1) % allLetters.length;
+            currentLetter = allLetters[nextIndex];
+            updateLetterDisplay();
+            document.getElementById('letterInput').value = '';
+            letterAttempts = [];
+            updateAttempts();
+        }
+
+        function randomLetter() {
+            const randomIndex = Math.floor(Math.random() * allLetters.length);
+            currentLetter = allLetters[randomIndex];
+            updateLetterDisplay();
+            document.getElementById('letterInput').value = '';
+            letterAttempts = [];
+            updateAttempts();
+        }
+
+        function updateLetterDisplay() {
+            document.getElementById('currentLetter').textContent = currentLetter;
+            document.getElementById('letterType').textContent = letters.includes(currentLetter) ? 'Uppercase letter' : 'Lowercase letter';
+        }
+
+        function updateAttempts() {
+            const attemptsDiv = document.getElementById('attempts');
+            const attemptsList = document.getElementById('attemptsList');
+            
+            if (letterAttempts.length > 0) {
+                attemptsDiv.classList.remove('hidden');
+                attemptsList.innerHTML = letterAttempts.map((attempt, index) => {
+                    const isCorrect = attempt === currentLetter;
+                    const className = isCorrect ? 'background: #dcfce7; color: #166534;' : 'background: #fee2e2; color: #991b1b;';
+                    return `<span style="font-size: 1.5rem; font-family: monospace; padding: 8px 12px; border-radius: 4px; ${className}">${attempt}</span>`;
+                }).join('');
+            } else {
+                attemptsDiv.classList.add('hidden');
+            }
+        }
+
+        function completeLetterActivity() {
+            if (letterAttempts.length === 0) {
+                showToast('No attempts yet', 'Try writing some letters first!');
+                return;
+            }
+
+            const correctAttempts = letterAttempts.filter(attempt => attempt === currentLetter).length;
+            const accuracy = (correctAttempts / letterAttempts.length) * 100;
+            const score = Math.max(30, accuracy);
+
+            let analysis = `Letter Formation Analysis:\n`;
+            analysis += `• Current letter: ${currentLetter}\n`;
+            analysis += `• Attempts: ${letterAttempts.length}\n`;
+            analysis += `• Correct: ${correctAttempts}\n`;
+            analysis += `• Accuracy: ${Math.round(accuracy)}%\n`;
+            analysis += `• Score: ${Math.round(score)}/100\n`;
+
+            if (accuracy >= 80) {
+                analysis += '• Excellent letter formation!\n';
+            } else if (accuracy >= 60) {
+                analysis += '• Good progress, keep practicing!\n';
+            } else {
+                analysis += '• Practice this letter more\n';
+            }
+
+            activities.letters = { completed: true, score: Math.round(score), data: { currentLetter, attempts: letterAttempts, accuracy } };
+            updateProgress();
+
+            showToast('Progress Report', analysis);
+        }
+
+        // Speed Activity
+        function initializeSpeedActivity() {
+            const prompt = speedPrompts[Math.floor(Math.random() * speedPrompts.length)];
+            document.getElementById('speedPrompt').textContent = prompt;
+            
+            const textarea = document.getElementById('speedText');
+            textarea.addEventListener('input', updateWordCount);
+        }
+
+        function startSpeedTest() {
+            speedActive = true;
+            speedStartTime = Date.now();
+            speedTimeLeft = 60;
+            
+            document.getElementById('speedText').disabled = false;
+            document.getElementById('speedText').value = '';
+            document.getElementById('startSpeedBtn').classList.add('hidden');
+            document.getElementById('stopSpeedBtn').classList.remove('hidden');
+            
+            updateWordCount();
+            
+            speedTimer = setInterval(() => {
+                speedTimeLeft--;
+                updateSpeedTimer();
+                
+                if (speedTimeLeft <= 0) {
+                    stopSpeedTest();
+                }
+            }, 1000);
+        }
+
+        function stopSpeedTest() {
+            speedActive = false;
+            
+            if (speedTimer) {
+                clearInterval(speedTimer);
+                speedTimer = null;
+            }
+            
+            document.getElementById('speedText').disabled = true;
+            document.getElementById('startSpeedBtn').classList.remove('hidden');
+            document.getElementById('stopSpeedBtn').classList.add('hidden');
+            
+            analyzeSpeed();
+        }
+
+        function resetSpeedTest() {
+            speedActive = false;
+            speedTimeLeft = 60;
+            speedStartTime = null;
+            
+            if (speedTimer) {
+                clearInterval(speedTimer);
+                speedTimer = null;
+            }
+            
+            document.getElementById('speedText').disabled = true;
+            document.getElementById('speedText').value = '';
+            document.getElementById('startSpeedBtn').classList.remove('hidden');
+            document.getElementById('stopSpeedBtn').classList.add('hidden');
+            
+            updateSpeedTimer();
+            updateWordCount();
+        }
+
+        function updateSpeedTimer() {
+            const mins = Math.floor(speedTimeLeft / 60);
+            const secs = speedTimeLeft % 60;
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            
+            if (speedTimeLeft <= 10) {
+                timerElement.style.color = '#dc2626';
+            } else {
+                timerElement.style.color = '#2563eb';
+            }
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('speedText').value;
+            const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const charCount = text.length;
+            
+            document.getElementById('wordCount').textContent = wordCount;
+            document.getElementById('charCount').textContent = charCount;
+        }
+
+        function analyzeSpeed() {
+            const text = document.getElementById('speedText').value;
+            const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const charCount = text.length;
+            const timeElapsed = speedStartTime ? (Date.now() - speedStartTime) / 1000 / 60 : 1;
+            const wpm = Math.round(wordCount / timeElapsed);
+            const cpm = Math.round(charCount / timeElapsed);
+
+            const score = Math.min(100, Math.max(20, wpm * 4));
+
+            let analysis = `Writing Speed Analysis:\n`;
+            analysis += `• Words written: ${wordCount}\n`;
+            analysis += `• Characters written: ${charCount}\n`;
+            analysis += `• Words per minute: ${wpm} WPM\n`;
+            analysis += `• Characters per minute: ${cpm} CPM\n`;
+            analysis += `• Score: ${Math.round(score)}/100\n`;
+
+            if (wpm >= 20) {
+                analysis += '• Excellent writing speed!\n';
+            } else if (wpm >= 15) {
+                analysis += '• Good writing speed\n';
+            } else if (wpm >= 10) {
+                analysis += '• Average writing speed\n';
+            } else {
+                analysis += '• Keep practicing to improve speed\n';
+            }
+
+            activities.speed = { completed: true, score: Math.round(score), data: { wordCount, charCount, wpm, cpm } };
+            updateProgress();
+
+            showToast('Speed Test Complete!', analysis);
+        }
+
+        // Coordination Activity
+        function initializeCoordinationCanvas() {
+            const canvas = document.getElementById('coordinationCanvas');
+            canvas.addEventListener('click', handleCoordinationClick);
+        }
+
+        function startCoordinationGame() {
+            coordActive = true;
+            coordGameStarted = true;
+            coordGameCompleted = false;
+            coordScore = 0;
+            coordTargets = [];
+            coordTimeLeft = 30;
+            
+            document.getElementById('startCoordBtn').classList.add('hidden');
+            document.getElementById('endCoordBtn').classList.remove('hidden');
+            document.getElementById('completeCoordBtn').classList.add('hidden');
+            
+            updateCoordStats();
+            addRandomTarget();
+            
+            coordTimer = setInterval(() => {
+                coordTimeLeft--;
+                updateCoordStats();
+                
+                if (coordTimeLeft <= 0) {
+                    endCoordinationGame();
+                }
+            }, 1000);
+            
+            // Add targets periodically
+            const targetInterval = setInterval(() => {
+                if (coordActive) {
+                    addRandomTarget();
+                } else {
+                    clearInterval(targetInterval);
+                }
+            }, 1500);
+        }
+
+        function endCoordinationGame() {
+            coordActive = false;
+            coordGameStarted = false;
+            coordGameCompleted = true;
+            
+            if (coordTimer) {
+                clearInterval(coordTimer);
+                coordTimer = null;
+            }
+            
+            document.getElementById('startCoordBtn').classList.remove('hidden');
+            document.getElementById('endCoordBtn').classList.add('hidden');
+            document.getElementById('completeCoordBtn').classList.remove('hidden');
+            
+            const accuracy = coordTargets.length > 0 ? (coordScore / coordTargets.length) * 100 : 0;
+            
+            let analysis = `Hand-Eye Coordination Analysis:\n`;
+            analysis += `• Targets hit: ${coordScore}\n`;
+            analysis += `• Total targets: ${coordTargets.length}\n`;
+            analysis += `• Accuracy: ${Math.round(accuracy)}%\n`;
+            analysis += `• Reaction time: ${coordTargets.length > 0 ? Math.round(30000 / coordTargets.length) : 0}ms avg\n`;
+
+            if (accuracy >= 80) {
+                analysis += '• Excellent coordination!\n';
+            } else if (accuracy >= 60) {
+                analysis += '• Good coordination skills\n';
+            } else {
+                analysis += '• Keep practicing to improve\n';
+            }
+
+            showToast('Game Complete!', analysis);
+        }
+
+        function resetCoordinationGame() {
+            coordActive = false;
+            coordGameStarted = false;
+            coordGameCompleted = false;
+            coordScore = 0;
+            coordTargets = [];
+            coordTimeLeft = 30;
+            
+            if (coordTimer) {
+                clearInterval(coordTimer);
+                coordTimer = null;
+            }
+            
+            document.getElementById('startCoordBtn').classList.remove('hidden');
+            document.getElementById('endCoordBtn').classList.add('hidden');
+            document.getElementById('completeCoordBtn').classList.add('hidden');
+            
+            const canvas = document.getElementById('coordinationCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            updateCoordStats();
+        }
+
+        function addRandomTarget() {
+            const canvas = document.getElementById('coordinationCanvas');
+            const padding = 50;
+            const x = Math.random() * (canvas.width - padding * 2) + padding;
+            const y = Math.random() * (canvas.height - padding * 2) + padding;
+            
+            const target = {
+                x,
+                y,
+                id: Date.now(),
+                hit: false,
+                created: Date.now()
+            };
+            
+            coordTargets.push(target);
+            
+            // Remove target after 3 seconds if not hit
+            setTimeout(() => {
+                const index = coordTargets.findIndex(t => t.id === target.id);
+                if (index !== -1 && !coordTargets[index].hit) {
+                    coordTargets.splice(index, 1);
+                    updateCoordStats();
+                    drawCoordinationCanvas();
+                }
+            }, 3000);
+            
+            updateCoordStats();
+            drawCoordinationCanvas();
+        }
+
+        function handleCoordinationClick(e) {
+            if (!coordActive) return;
+
+            const canvas = document.getElementById('coordinationCanvas');
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+
+            coordTargets.forEach(target => {
+                if (!target.hit) {
+                    const distance = Math.sqrt(
+                        Math.pow(clickX - target.x, 2) + Math.pow(clickY - target.y, 2)
+                    );
+                    
+                    if (distance <= 25) {
+                        coordScore++;
+                        target.hit = true;
+                        updateCoordStats();
+                        drawCoordinationCanvas();
+                    }
+                }
+            });
+        }
+
+        function drawCoordinationCanvas() {
+            const canvas = document.getElementById('coordinationCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            coordTargets.forEach(target => {
+                if (!target.hit) {
+                    // Draw target circle
+                    ctx.beginPath();
+                    ctx.arc(target.x, target.y, 25, 0, 2 * Math.PI);
+                    ctx.fillStyle = '#ef4444';
+                    ctx.fill();
+                    ctx.strokeStyle = '#dc2626';
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+
+                    // Draw inner circle
+                    ctx.beginPath();
+                    ctx.arc(target.x, target.y, 10, 0, 2 * Math.PI);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fill();
+                }
+            });
+        }
+
+        function updateCoordStats() {
+            document.getElementById('targetsHit').textContent = coordScore;
+            document.getElementById('timeLeft').textContent = coordTimeLeft + 's';
+            document.getElementById('activeTargets').textContent = coordTargets.filter(t => !t.hit).length;
+        }
+
+        function completeCoordinationActivity() {
+            const accuracy = coordTargets.length > 0 ? (coordScore / coordTargets.length) * 100 : 0;
+            const totalScore = Math.min(100, coordScore * 10 + accuracy);
+            
+            activities.coordination = { completed: true, score: Math.round(totalScore), data: { score: coordScore, accuracy, totalTargets: coordTargets.length } };
+            updateProgress();
+
+            showToast('Activity Completed!', 'Hand-Eye Coordination test has been marked as complete.');
+        }
+
+        // Results page
+        function viewResults() {
+            const completedActivities = Object.values(activities).filter(a => a.completed);
+            if (completedActivities.length < 5) {
+                showToast('Not Ready', 'Please complete all activities first.');
+                return;
+            }
+            
+            // Store results in localStorage and redirect
+            localStorage.setItem('dysgraphiaResults', JSON.stringify(activities));
+            window.location.href = 'results.html';
+        }
+    </script>
+</body>
+</html>

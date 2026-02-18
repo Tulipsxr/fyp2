@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../image/logo.png">
+    <title>CogniSphere - Dysgraphia Assessment</title>
+    <link rel="stylesheet" href="dysgraphia.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo">
+            <span class="logo-text">CogniSphere</span>
+        </div>
+        <div class="nav-links">
+            <a href="../Mainmenu.html">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>Dysgraphia Assessment Activities</h1>
+        
+        <div class="activity-section">
+            <div class="instructions">
+                <h2>Handwriting Assessment</h2>
+                <p>Complete the following activities to help us assess your handwriting:</p>
+            </div>
+
+            <div class="activity-card">
+                <h3>Activity 1: Letter Formation</h3>
+                <div class="upload-section">
+                    <p>Upload your handwriting sample:</p>
+                    <input type="file" id="handwritingUpload1" accept="image/*" onchange="handleImageUpload(this, 'previewImage1')">
+                    <img id="previewImage1" class="preview-image" style="display: none; max-width: 400px; margin-top: 10px;">
+                </div>
+                <p class="task-instruction">Write the alphabet in lowercase letters: "abcdefg"</p>
+                <button onclick="submitActivity(1)" class="submit-btn">Submit Activity 1</button>
+                <div id="analysis1" class="analysis-result"></div>
+            </div>
+
+            <div class="activity-card">
+                <h3>Activity 2: Word Spacing</h3>
+                <div class="upload-section">
+                    <p>Upload your handwriting sample:</p>
+                    <input type="file" id="handwritingUpload2" accept="image/*" onchange="handleImageUpload(this, 'previewImage2')">
+                    <img id="previewImage2" class="preview-image" style="display: none; max-width: 400px; margin-top: 10px;">
+                </div>
+                <p class="task-instruction">Write the sentence: "The quick brown fox jumps over the lazy dog"</p>
+                <button onclick="submitActivity(2)" class="submit-btn">Submit Activity 2</button>
+                <div id="analysis2" class="analysis-result"></div>
+            </div>
+
+            <div class="activity-card">
+                <h3>Activity 3: Number Formation</h3>
+                <div class="upload-section">
+                    <p>Upload your handwriting sample:</p>
+                    <input type="file" id="handwritingUpload3" accept="image/*" onchange="handleImageUpload(this, 'previewImage3')">
+                    <img id="previewImage3" class="preview-image" style="display: none; max-width: 400px; margin-top: 10px;">
+                </div>
+                <p class="task-instruction">Write the numbers: "0123456789 10"</p>
+                <button onclick="submitActivity(3)" class="submit-btn">Submit Activity 3</button>
+                <div id="analysis3" class="analysis-result"></div>
+            </div>
+        </div>
+
+        <div id="results" class="results-section hidden">
+            <h2>Assessment Results</h2>
+            <div class="results-content">
+                <div class="score-container">
+                    <div class="overall-score">
+                        <h3>Overall Assessment</h3>
+                        <div class="score-circle">
+                            <span id="overallScore">-</span>%
+                        </div>
+                        <p id="overallResult">Complete all activities to see results</p>
+                        <div class="score-explanation">
+                            <p><strong>Score Guide:</strong></p>
+                            <ul>
+                                <li>85-100%: No significant dysgraphia indicators</li>
+                                <li>70-84%: Mild dysgraphia indicators present</li>
+                                <li>Below 70%: Moderate to significant dysgraphia indicators</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="detailed-scores">
+                        <h3>Detailed Analysis</h3>
+                        <div class="score-item">
+                            <span>Letter Formation:</span>
+                            <span id="letterScore">-</span>%
+                        </div>
+                        <div class="score-item">
+                            <span>Word Spacing:</span>
+                            <span id="spacingScore">-</span>%
+                        </div>
+                        <div class="score-item">
+                            <span>Number Formation:</span>
+                            <span id="numberScore">-</span>%
+                        </div>
+                    </div>
+                </div>
+                <div class="indicators-section">
+                    <h3>Dysgraphia Indicators</h3>
+                    <ul id="indicatorsList"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Tesseract.js -->
+    <script src='https://unpkg.com/tesseract.js@4.1.1/dist/tesseract.min.js'></script>
+    <script src="dysgraphia.js"></script>
+</body>
+</html>
